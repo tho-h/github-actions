@@ -1,0 +1,39 @@
+name: Set version and publish release
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
+    secrets:
+      token:
+        required: true
+
+jobs:
+  run-maven:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout git repository
+      uses: actions/checkout@v4
+
+    - name: Checkout the tho-h reusable GitHub Actions/Workflows git repository
+      uses: actions/checkout@v4
+      with:
+        repository: tho-h/github-actions
+        path: ${{ github.workspace }}/tho-h/github-actions
+
+    - name: Prepare environment
+      uses: ./tho-h/github-actions/.github/actions/prepare-env
+
+    - name: 'Set version (${{ inputs.version }})'
+      uses: ./tho-h/github-actions/.github/actions/set-project-version
+      with:
+        version: ${{ inputs.version }}
+
+    - name: Run maven deploy command
+      uses: ./tho-h/github-actions/.github/actions/run-maven-command
+      with:
+        maven-command-attributes: deploy
+        github-personnal-access-token:  ${{ secrets.GITHUB_TOKEN }}

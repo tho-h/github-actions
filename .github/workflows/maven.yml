@@ -1,0 +1,34 @@
+name: Maven
+
+on:
+  workflow_call:
+    inputs:
+      maven-command-attributes:
+        type: string
+        required: true
+    secrets:
+      token:
+        required: true
+
+jobs:
+  run-maven:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout git repository
+      uses: actions/checkout@v4
+
+    - name: Checkout the tho-h reusable GitHub Actions/Workflows git repository
+      uses: actions/checkout@v4
+      with:
+        repository: tho-h/github-actions
+        path: ${{ github.workspace }}/tho-h/github-actions
+
+    - name: Prepare environment
+      uses: ./tho-h/github-actions/.github/actions/prepare-env
+
+    - name: 'Run maven command (${{ inputs.maven-command-attributes }})'
+      uses: ./tho-h/github-actions/.github/actions/run-maven-command
+      with:
+        maven-command-attributes: ${{ inputs.maven-command-attributes }}
+        github-personnal-access-token:  ${{ secrets.GITHUB_TOKEN }}

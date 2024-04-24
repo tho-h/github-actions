@@ -1,0 +1,18 @@
+name: Run maven command
+
+inputs:
+  maven-command-attributes:
+    type: string
+    required: true
+  github-personnal-access-token:
+    description: The Github PAT (Personnel Access Token)
+    required: true
+
+runs:
+  using: composite
+  steps:
+  - name: 'Run the maven command (attributes: ${{ inputs.maven-command-attributes }}, added attributes: -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }})'
+    shell: bash
+    run: mvn --batch-mode --update-snapshots ${{ inputs.maven-command-attributes }} -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }}
+    env:
+      GITHUB_TOKEN: ${{ inputs.github-personnal-access-token }}

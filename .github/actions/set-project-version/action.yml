@@ -1,0 +1,15 @@
+name: Set project version
+
+description: Set the project version using maven command
+
+inputs:
+  version:
+    type: string
+    required: true
+
+runs:
+  using: composite
+  steps:
+  - name: 'Update version in pom to ${{ inputs.version }}'
+    shell: bash
+    run: mvn --batch-mode versions:set -DnewVersion=${{ inputs.version }} -DgenerateBackupPoms=false
