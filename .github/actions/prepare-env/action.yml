@@ -1,11 +1,19 @@
 name: Prepare environment
 
+inputs:
+  java-version:
+    type: string
+    required: true
+  java-distribution:
+    type: string
+    required: true
+
 runs:
   using: composite
   steps:
-  - name: Set up Java 17
-    uses: actions/setup-java@v3
+  - name: Set up Java ${{ inputs.java-version }} (${{ inputs.java-distribution }})
+    uses: actions/setup-java@v4
     with:
-      java-version: 17
-      distribution: temurin
+      java-version: ${{ inputs.java-version }}
+      distribution: ${{ inputs.java-distribution }}
       cache: maven

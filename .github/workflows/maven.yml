@@ -6,6 +6,14 @@ on:
       maven-command-attributes:
         type: string
         required: true
+      java-version:
+        type: string
+        required: false
+        default: '17'
+      java-distribution:
+        type: string
+        required: false
+        default: 'temurin'
     secrets:
       token:
         required: true
@@ -26,6 +34,9 @@ jobs:
 
     - name: Prepare environment
       uses: ./tho-h/github-actions/.github/actions/prepare-env
+      with:
+        java-version: ${{ inputs.java-version }}
+        java-distribution: ${{ inputs.java-distribution }}
 
     - name: 'Run maven command (${{ inputs.maven-command-attributes }})'
       uses: ./tho-h/github-actions/.github/actions/run-maven-command
