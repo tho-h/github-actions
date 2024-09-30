@@ -1,6 +1,9 @@
 name: Prepare environment
 
 inputs:
+  token-read-tho-h-packages:
+    type: string
+    required: false
   java-version:
     type: string
     required: true
@@ -17,3 +20,21 @@ runs:
       java-version: ${{ inputs.java-version }}
       distribution: ${{ inputs.java-distribution }}
       cache: maven
+  - name: Set up maven settings for tho-h dependencies
+    if: ${{ inputs.token-read-tho-h-packages != '' }}
+    uses: s4u/maven-settings-action@v3.0.0
+    with:
+      servers: |
+        [{
+          "id": "github-tho-h",
+          "username": "tho-h",
+          "password": "${{ inputs.token-read-tho-h-packages }}"
+        }]
+      repositories: |
+        [{
+          "id": "github-tho-h",
+          "name": "GitHub tho-h Apache Maven Packages",
+          "url": "https://maven.pkg.github.com/tho-h/*",
+          "snapshots": {"enabled":true},
+          "releases": {"enabled":true}
+        }]

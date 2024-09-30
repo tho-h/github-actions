@@ -14,9 +14,6 @@ on:
         type: string
         required: false
         default: 'temurin'
-    secrets:
-      token:
-        required: true
 
 jobs:
   run-maven:
@@ -35,6 +32,7 @@ jobs:
     - name: Prepare environment
       uses: ./tho-h/github-actions/.github/actions/prepare-env
       with:
+        token-read-tho-h-packages: ${{ secrets.TOKEN_READ_THO_H_PACKAGES }}
         java-version: ${{ inputs.java-version }}
         java-distribution: ${{ inputs.java-distribution }}
 

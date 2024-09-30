@@ -17,8 +17,7 @@ jobs:
     uses: tho-h/github-actions/.github/workflows/maven.yml@main
     with:
       maven-command-attributes: deploy
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
     permissions:
       packages: write
       contents: read
@@ -38,8 +37,7 @@ jobs:
     uses: tho-h/github-actions/.github/workflows/maven.yml@main
     with:
       maven-command-attributes: verify
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
     permissions:
       contents: read
 ```
@@ -57,8 +55,7 @@ jobs:
     uses: tho-h/github-actions/.github/workflows/set-version-publish-release.yml@main
     with:
       version: ${{ github.event.release.tag_name }}
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
     permissions:
       contents: read
       packages: write
